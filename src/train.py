@@ -33,6 +33,11 @@ def train_one_epoch(
         _, predicted = outputs.max(1)
         total += targets.size(0)
         correct += predicted.eq(targets).sum().item()
+        
+        # Print progress every batch so the terminal doesn't look frozen
+        if True:
+            print(f"Processing batch {batch_idx}/{len(loader)}...", flush=True)
+            
     avg_loss = total_loss / total
     accuracy = correct / total
     return avg_loss, accuracy

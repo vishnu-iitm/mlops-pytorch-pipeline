@@ -1,4 +1,4 @@
-import torch.nn as nn
+﻿import torch.nn as nn
 from torchvision.models import resnet18
 
 def get_model(architecture: str, num_classes: int) -> nn.Module:
