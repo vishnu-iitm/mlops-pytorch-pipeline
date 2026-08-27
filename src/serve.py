@@ -26,7 +26,7 @@ classes = ["airplane", "automobile", "bird", "cat", "deer", "dog", "frog", "hors
 @app.on_event("startup")
 def load_model():
     global model
-    model = get_model('resnet18', 10).to(device)
+    model = get_model('tinycnn', 10).to(device)
     
     ckpt_path = os.environ.get("CHECKPOINT_PATH", "/app/checkpoints/classifier_v1.pt")
     if os.path.exists(ckpt_path):

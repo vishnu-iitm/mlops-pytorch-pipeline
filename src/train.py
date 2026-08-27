@@ -34,8 +34,8 @@ def train_one_epoch(
         total += targets.size(0)
         correct += predicted.eq(targets).sum().item()
         
-        # Print progress every batch so the terminal doesn't look frozen
-        if True:
+        # Print progress of batch
+        if batch_idx % 50 == 0:
             print(f"Processing batch {batch_idx}/{len(loader)}...", flush=True)
             
     avg_loss = total_loss / total

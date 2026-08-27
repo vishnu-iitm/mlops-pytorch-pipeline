@@ -1,20 +1,31 @@
-﻿import torch.nn as nn
-from torchvision.models import resnet18
+import torch.nn as nn
+
+
+class TinyCNN(nn.Module):
+    # small 3-block cnn for cifar-10
+    def __init__(self, num_classes):
+        super().__init__()
+        # conv blocks: 3 -> 16 -> 32 -> 64 channels
+        self.features = nn.Sequential(
+            nn.Conv2d(3, 16, kernel_size=3, padding=1),
+            nn.ReLU(inplace=True),
+            nn.MaxPool2d(2),
+            nn.Conv2d(16, 32, kernel_size=3, padding=1),
+            nn.ReLU(inplace=True),
+            nn.MaxPool2d(2),
+            nn.Conv2d(32, 64, kernel_size=3, padding=1),
+            nn.ReLU(inplace=True),
+            nn.AdaptiveAvgPool2d((1, 1))
+        )
+        self.fc = nn.Linear(64, num_classes)
+
+    def forward(self, x):
+        x = self.features(x)
+        x = x.flatten(1)
+        return self.fc(x)
+
 
 def get_model(architecture: str, num_classes: int) -> nn.Module:
-    if architecture == 'resnet18':
-        # get standard resnet18
-        model = resnet18(weights='DEFAULT')
-        
-        # tweak for small cifar images
-        model.conv1 = nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=1, bias=False)
-        model.maxpool = nn.Identity()
-        
-        # swap out the final layer
-        in_features = model.fc.in_features
-        model.fc = nn.Linear(in_features, num_classes)
-        
-        return model
-    
-    # fallback for unsupported archs
+    if architecture == 'tinycnn':
+        return TinyCNN(num_classes)
     raise ValueError(f"architecture {architecture} not supported yet")
