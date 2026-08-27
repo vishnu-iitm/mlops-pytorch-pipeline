@@ -8,12 +8,12 @@ Here is the high-level architecture of the system:
 
 ```mermaid
 graph TD
-    subgraph Local Environment
+    subgraph LocalEnv [Local Environment]
         A[Configs/Code] -->|docker build| B(mlops-train:v1)
         A -->|docker build| C(mlops-serve:v1)
     end
     
-    subgraph Kubernetes Cluster (Namespace: ml-training)
+    subgraph K8s [Kubernetes Cluster - Namespace: ml-training]
         D[training-config ConfigMap] --> E[mlops-training-job]
         
         F[(data-pvc)] --> E
