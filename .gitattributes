@@ -1,0 +1,5 @@
+* text=auto
+*.py text diff
+*.yaml text diff
+*.txt text diff
+Dockerfile* text diff
